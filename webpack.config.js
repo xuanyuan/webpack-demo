@@ -5,8 +5,7 @@ const webpack = require('webpack');
 
 module.exports = {
   entry: {
-    app: './src/index.js',
-    print: './src/print.js'
+    app: './src/index.js'
   },
   devtool: 'inline-source-map',
   /*
@@ -16,7 +15,16 @@ module.exports = {
   * 将dist目录下的文件， 作为可访问文件。
   */
   devServer: {
-    contentBase: './dist'
+    contentBase: './dist',
+    hot: true // 启用HMR
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      }
+    ]
   },
   plugins: [
     // 每次构建前清理dist文件夹
@@ -24,7 +32,9 @@ module.exports = {
     // 创建全新的index.html,所有的bundle会自动添加到html中
     new HtmlWebpackPlugin({
       title: 'Output Management'
-    })
+    }),
+    new webpack.NamedModulesPlugin(),
+    new webpack.HotModuleReplacementPlugin()
   ],
   output: {
     filename: '[name].bundle.js',
