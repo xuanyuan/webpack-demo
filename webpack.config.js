@@ -33,11 +33,15 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'Output Management'
     }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'common' // 指定公共bundle名称
+    }),
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin()
   ],
   output: {
     filename: '[name].bundle.js',
+    chunkFilename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist')
   }
 }
